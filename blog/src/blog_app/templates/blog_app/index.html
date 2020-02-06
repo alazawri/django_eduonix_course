@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- My Style -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>Blog App</title>
+</head>
+
+<body>
+    <!-- navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <ul class="nav navbar-nav">
+            {% if request.user.is_authenticated %}
+                <a href="#" class="navbar-brand">
+                    {{ user.username }}
+                </a>
+                <li><a href="#" data-toggle="modal" data-target="#addblog">Add Blog!</a></li>
+            {% else %}
+                <li><a href="#" data-toggle="modal" data-target="#login">
+                    Login
+                </a></li>
+            {% endif %}
+            
+        </ul>
+    </nav>
+
+    <!-- page -->
+    <div class="">
+        <div class="page-header centerdiv">
+            <h1>Blog Articles!</h1>
+        </div>
+    </div>
+    <div class="blog well">
+        {% for blog in blogs %}
+            <div>
+                <div class="page-header">
+                    <h3>{{ blog.title }}</h3>
+                    <small>{{ blog.author }}</small>
+                </div>
+                {{ blog.blog_content }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- login form -->
+
+    <div class="modal fade" id="login">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body login">
+                        <b>Username</b>
+                        <input class="form-control" type="text" name="username" id="">
+                        <b>Password</b>
+                        <input class="form-control" type="password" name="password" id="">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-success float-none" value="Login">
+                    </div>
+                </form>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add blog -->
+
+    <div class="modal fade" id="addblog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body login">
+                        <b>Title</b>
+                        <input class="form-control" type="text" name="title" id="">
+                        <b>Content</b>
+                        <input class="form-control" type="text" name="blog_content" id="">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-success float-none" value="Login">
+                    </div>
+                </form>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
